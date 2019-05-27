@@ -1,7 +1,9 @@
-import React, { FormEvent, useState, ChangeEvent } from 'react'
+import React, { FormEvent, useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { FormControlProps } from 'react-bootstrap'
+import { FormControlProps, Col } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Login = () => {
   const [password, setPassword] = useState<string | undefined>('')
@@ -12,8 +14,18 @@ const Login = () => {
   return (
     <>
       <Form onSubmit={(e: FormEvent) => handleSubmit(e)}>
+        <Row className="mb-3 text-center">
+          <Col>
+            <div className="rounded-icon">
+              <FontAwesomeIcon
+                icon={'lock'}
+                size="2x"
+                className="align-middle"
+              />
+            </div>
+          </Col>
+        </Row>
         <Form.Group controlId="formBasicPassword">
-          <Form.Label>Enter password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Password"
