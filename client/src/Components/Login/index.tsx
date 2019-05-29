@@ -5,16 +5,24 @@ import { FormControlProps, Col } from 'react-bootstrap'
 import { Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Login = () => {
-  const [password, setPassword] = useState<string | undefined>('')
+const Login = ({
+  sendPasswordCB,
+}: {
+  sendPasswordCB: (password: string) => void
+}) => {
+  const [password, setPassword] = useState<string>('')
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    sendPasswordCB(password)
   }
 
   return (
     <>
-      <Form onSubmit={(e: FormEvent) => handleSubmit(e)}>
-        <Row className="mb-3 text-center">
+      <Form
+        onSubmit={(e: FormEvent) => handleSubmit(e)}
+        className="text-center"
+      >
+        <Row className="mb-3">
           <Col>
             <div className="rounded-icon">
               <FontAwesomeIcon
@@ -30,7 +38,7 @@ const Login = () => {
             type="password"
             placeholder="Password"
             onChange={(e: FormEvent<FormControlProps>) => {
-              setPassword(e.currentTarget.value)
+              setPassword(e.currentTarget.value ? e.currentTarget.value : '')
             }}
           />
         </Form.Group>

@@ -9,6 +9,7 @@
 
 # conf file
 /server/conf/conf.js
+/client/src/conf/conf.tsx
 
 # misc
 .DS_Store
