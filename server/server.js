@@ -4,10 +4,13 @@ const jwt = require('jsonwebtoken')
 const router = express.Router()
 const conf = require('./conf/conf')
 const ping = require('ping')
+const bodyParser = require('body-parser')
 const app = express()
 
 require('./strategy/local')
 require('./strategy/jwt')
+
+app.use(bodyParser.urlencoded({ extended: false }))
 
 router.post('/login', async (req, res, next) => {
   passport.authenticate('login', async (err, payload) => {

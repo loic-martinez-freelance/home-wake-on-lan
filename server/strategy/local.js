@@ -6,8 +6,6 @@ passport.use(
   'login',
   new LocalStrategy(
     {
-      usernameField: 'username',
-      passwordField: 'password',
       session: false,
     },
     (username, password, done) => {
