@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'typeface-roboto'
 import Login from './Components/Login'
@@ -6,14 +6,15 @@ import Container from 'react-bootstrap/Container'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { sendLogin, storeToken, getToken } from './utils/auth'
-import { ping } from './utils/net'
-import WolButton from './Components/WolButton'
+import { getDevices } from './utils/net'
+import WolList from './Components/WolList'
 import Panel from './Components/Panel'
+import { Device } from './types/device'
 library.add(fas)
 
 const Main = () => {
   const [token, setToken] = useState(getToken())
-  const [computerOnline, setComputerOnline] = useState(false)
+  const [devices, setDevices] = useState<Device[]>([])
 
   const sendPasswordCB = async (password: string) => {
     const token = await sendLogin(password)
@@ -21,24 +22,24 @@ const Main = () => {
     setToken(token)
   }
 
-  const checkPingCB = async () => {
-    try {
-      const isOnline = await ping(token)
-      setComputerOnline(isOnline)
-    } catch (e) {
-      storeToken('')
-      setToken('')
+  useEffect(() => {
+    const checkDevicesCB = async () => {
+      try {
+        const devices = await getDevices(token)
+        setDevices(devices)
+      } catch (e) {
+        storeToken('')
+        setToken('')
+      }
     }
-  }
+    checkDevicesCB()
+  }, [token])
 
   return (
     <Container className="h-100">
       <Panel large={token !== '' ? true : false}>
         {token !== '' ? (
-          <WolButton
-            checkPingCB={checkPingCB}
-            isComputerOnline={computerOnline}
-          />
+          <WolList devicesList={devices} />
         ) : (
           <Login sendPasswordCB={sendPasswordCB} />
         )}

@@ -1,14 +1,15 @@
 import axios from 'axios'
 import { conf } from '../conf/conf'
+import { Device } from '../types/device'
 
-export const ping = async (token: string): Promise<boolean> => {
+export const getDevices = async (token: string): Promise<Device[]> => {
   if (!token) {
-    return false
+    return []
   }
   const result = await axios.post(conf.domain + '/ping', '', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
-  return result.data.alive
+  return result.data
 }

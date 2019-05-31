@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
@@ -11,13 +12,14 @@ require('./strategy/local')
 require('./strategy/jwt')
 
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors({ origin: conf.cors_origin }))
 
-router.post('/login', async (req, res, next) => {
-  passport.authenticate('login', async (err, payload) => {
+router.post('/login', (req, res, next) => {
+  passport.authenticate('login', (err, payload) => {
     if (err || !payload) {
       return res.status(400).send(err)
     }
-    req.login(payload, { session: false }, async (error) => {
+    req.login(payload, { session: false }, (error) => {
       if (error) return next(error)
       const token = jwt.sign(payload, conf.secret, {
         expiresIn: conf.session_expire,
@@ -27,8 +29,8 @@ router.post('/login', async (req, res, next) => {
   })(req, res, next)
 })
 
-router.post('/wol', async (req, res, next) => {
-  passport.authenticate('jwt', async (err, payload) => {
+router.post('/wol', (req, res, next) => {
+  passport.authenticate('jwt', (err, payload) => {
     if (err || !payload) {
       return res.status(400).send('Unauthorized')
     }
@@ -36,14 +38,17 @@ router.post('/wol', async (req, res, next) => {
   })(req, res, next)
 })
 
-router.post('/ping', async (req, res, next) => {
+router.post('/ping', (req, res, next) => {
   passport.authenticate('jwt', async (err, payload) => {
     if (err || !payload) {
       return res.status(400).send('Unauthorized')
     }
-    ping.sys.probe(conf.host, (isAlive) => {
-      return res.json({ alive: isAlive })
-    })
+    const devicesAlive = []
+    for (const { ip, mac_address } of conf.devices) {
+      const probe = await ping.promise.probe(ip)
+      devicesAlive.push({ ip, mac_address, isAlive: probe.alive })
+    }
+    return res.json(devicesAlive)
   })(req, res, next)
 })
 

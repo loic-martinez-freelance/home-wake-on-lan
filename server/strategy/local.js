@@ -9,7 +9,7 @@ passport.use(
       session: false,
     },
     (username, password, done) => {
-      if (username === conf.username && password === conf.password) {
+      if (username === 'username' && password === conf.password) {
         return done(null, { username })
       }
       return done('Unauthorized')
