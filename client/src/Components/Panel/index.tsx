@@ -16,7 +16,7 @@ const Panel = ({
         className="align-self-center"
       >
         <Card>
-          <Card.Body>{children}</Card.Body>
+          <Card.Body className={large ? 'p-0' : ''}>{children}</Card.Body>
         </Card>
       </Col>
     </Row>
