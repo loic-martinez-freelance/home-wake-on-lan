@@ -34,8 +34,13 @@ const Main = () => {
     setToken('')
   }
 
-  const sendWolCB = (mac_address: string) => {
-    sendWol(token, mac_address)
+  const sendWolCB = async (mac_address: string) => {
+    try {
+      const isSent = await sendWol(token, mac_address)
+    } catch (e) {
+      storeToken('')
+      setToken('')
+    }
   }
 
   useEffect(() => {
