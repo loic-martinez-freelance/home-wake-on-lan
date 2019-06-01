@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'typeface-roboto'
 import Login from './Components/Login'
 import Container from 'react-bootstrap/Container'
 import { library } from '@fortawesome/fontawesome-svg-core'
