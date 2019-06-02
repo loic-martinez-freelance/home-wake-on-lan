@@ -23,7 +23,7 @@ export const sendWol = async (
   }
   const result = await axios.post(
     conf.domain + '/wol',
-    `macaddress=${mac_address}`,
+    `mac_address=${mac_address}`,
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',

@@ -6,6 +6,7 @@ const router = express.Router()
 const conf = require('./conf/conf')
 const ping = require('ping')
 const bodyParser = require('body-parser')
+const wol = require('wake_on_lan')
 const app = express()
 
 require('./strategy/local')
@@ -34,7 +35,17 @@ router.post('/wol', (req, res, next) => {
     if (err || !payload) {
       return res.status(400).send('Unauthorized')
     }
-    return res.json({ done: true })
+    const mac_address = req.body.mac_address
+    if (mac_address && mac_address !== '') {
+      try {
+        wol.wake(mac_address)
+        return res.json({ done: true })
+      } catch (e) {
+        console.log(e)
+        return res.json({ done: false })
+      }
+    }
+    return res.json({ done: false })
   })(req, res, next)
 })
 
