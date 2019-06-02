@@ -1,5 +1,7 @@
 # home-wake-on-lan
 
+![Screenshot](screenshot.png)
+
 Quick app made for home usage.
 
 Allow you to ping devices on the network and send wake on lan request to compatible ones.
