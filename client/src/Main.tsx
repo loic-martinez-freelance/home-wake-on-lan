@@ -9,6 +9,7 @@ import WolList from './Components/WolList'
 import Panel from './Components/Panel'
 import { Device } from './types/device'
 import Message from './Components/Message'
+import Spinner from './Components/Spinner'
 library.add(fas)
 
 const Main = () => {
@@ -16,9 +17,12 @@ const Main = () => {
   const [devices, setDevices] = useState<Device[]>([])
   const [sentWolFeedback, setSentWolFeedback] = useState('')
   const [sentWolSuccess, setSentWolSuccess] = useState(false)
+  const [loadingDevices, setLoadingDevices] = useState(false)
   const checkDevicesCB = useCallback(async () => {
     try {
+      setLoadingDevices(true)
       const devices = await getDevices(token)
+      setLoadingDevices(false)
       setDevices(devices)
     } catch (e) {
       storeToken('')
@@ -62,12 +66,18 @@ const Main = () => {
         <Panel large={token !== '' ? true : false}>
           <>
             {token !== '' ? (
-              <WolList
-                devicesList={devices}
-                refreshCB={checkDevicesCB}
-                disconnectCB={disconnectCB}
-                sendWolCB={sendWolCB}
-              />
+              <>
+                {loadingDevices ? (
+                  <Spinner />
+                ) : (
+                  <WolList
+                    devicesList={devices}
+                    refreshCB={checkDevicesCB}
+                    disconnectCB={disconnectCB}
+                    sendWolCB={sendWolCB}
+                  />
+                )}
+              </>
             ) : (
               <Login sendPasswordCB={sendPasswordCB} />
             )}
