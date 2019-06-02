@@ -2,6 +2,7 @@ html,
 body,
 #root {
   height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -9,6 +10,11 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.btn.disabled,
+.btn:disabled {
+  opacity: 0.15;
 }
 
 #root {
@@ -28,5 +34,26 @@ body {
 
 .card {
   border-radius: 2px !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.message {
+  position: absolute;
+  width: 100%;
+  bottom: -44px;
+  text-align: center;
+  transition: 0.5s bottom cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.message.show {
+  bottom: 0;
+}
+
+.message > div {
+  width: auto;
+  background: #fff;
+  padding: 10px;
+  display: inline-block;
+  box-sizing: border-box;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }

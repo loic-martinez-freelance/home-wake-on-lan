@@ -35,7 +35,7 @@ const WolButton = ({
             sendWolCB(device.mac_address)
           }}
         >
-          Send wake
+          Wake up!
         </Button>
       </Col>
     </Row>
