@@ -65,7 +65,7 @@
     "ts-pnp": "1.1.2",
     "typeface-roboto": "0.0.54",
     "typescript": "3.5.2",
-    "url-loader": "1.1.2",
+    "url-loader": "2.0.0",
     "webpack": "4.29.6",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
